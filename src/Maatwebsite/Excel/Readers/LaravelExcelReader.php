@@ -547,17 +547,18 @@ class LaravelExcelReader
      * Parse the file in chunks and queues the processing of each chunk
      *
      * @param int      $size
+     * @param int      $startRow
      * @param callable $callback
      * @param bool     $shouldQueue
      */
-    public function chunk($size = 10, callable $callback, $shouldQueue = true)
+    public function chunk($size = 10, $startRow = 0, callable $callback, $shouldQueue = true)
     {
         // Get total rows
         $totalRows = $this->getTotalRowsOfFile();
 
         $break = false;
 
-        for ($startRow = 0; $startRow < $totalRows; $startRow += $chunkSize) {
+        for ($startRow; $startRow < $totalRows; $startRow += $chunkSize) {
 
             // Set start index
             $startIndex = ($startRow == 0) ? $startRow : $startRow - 1;
